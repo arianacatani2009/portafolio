@@ -30,6 +30,10 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 // Variables globales
+app.use((req,res,next)=>{
+    res.locals.user = req.user?.name || null
+    next()
+})
 // Rutas 
 app.get('/',(req,res)=>{
     res.render('index')

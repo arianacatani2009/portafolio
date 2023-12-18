@@ -12,6 +12,10 @@ const portfolioSchema = new Schema({
     category :{
         type:String,
         require:true
+    },
+    user:{
+        type:String,
+        required:true
     }
 },{
     timestamps:true

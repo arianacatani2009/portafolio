@@ -4,10 +4,12 @@ const User = require('../models/User')
 const LocalStrategy = require('passport-local').Strategy
 
 
-
+//implementar la estratigia local
 passport.use(new LocalStrategy({
+    //en base a email y password
     usernameField:'email',
     passwordField:'password'
+    //funcion para hacer el proceso de inicio de sesion
 },async(email,password,done)=>{
 
     const userBDD = await User.findOne({email})
@@ -16,8 +18,6 @@ passport.use(new LocalStrategy({
     if(!passwordUser) return done("Lo sentimos, los passwords no coinciden",false)
     return done(null,userBDD)
 }))
-
-
 
 passport.serializeUser((user,done)=>{
     done(null,user.id)

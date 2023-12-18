@@ -1,8 +1,8 @@
+const passport = require("passport")
 const User = require('../models/User')
 const renderRegisterForm =(req,res)=>{
     res.render('user/registerForm')
 }
-
 const registerNewUser = async(req,res)=>{
     
     const{name,email,password,confirmpassword} = req.body
@@ -22,12 +22,16 @@ const renderLoginForm =(req,res)=>{
     res.render('user/loginForm')
 }
 
-const loginUser =(req,res)=>{
-    res.send('login user')
-}
+const loginUser = passport.authenticate('local',{
+    failureRedirect:'/user/login',
+    successRedirect:'/portafolios'
+})
 
 const logoutUser =(req,res)=>{
-    res.send('logout user')
+    req.logout((err)=>{
+        if (err) return res.send("Ocurrio un error") 
+        res.redirect('/');
+    });
 }
 
 module.exports={
