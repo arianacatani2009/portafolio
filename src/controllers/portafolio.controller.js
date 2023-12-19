@@ -10,11 +10,18 @@ const renderPortafolio = (req,res)=>{
 const renderPortafolioForm = (req,res)=>{
     res.render('portafolio/newFormPortafolio')
 }
+const { uploadImage } = require('../config/cloudinary')
 const createNewPortafolio =async (req,res)=>{
 
-    const {title, category,description} = req.body
+    const {title, category,description} = req.body   
     const newPortfolio = new Portfolio({title,category,description})
     newPortfolio.user = req.user._id
+    if(!(req.files?.image)) return res.send("Se requiere una imagen")
+    const imageUpload = await uploadImage(req.files.image.tempFilePath)
+    newPortfolio.image = {
+        public_id:imageUpload.public_id,
+        secure_url:imageUpload.secure_url
+    }
     await newPortfolio.save()
     res.redirect('/portafolios')
 }

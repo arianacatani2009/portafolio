@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
+const fileUpload = require('express-fileupload')
 // Inicializaciones
 const app = express()
 const { engine }  = require('express-handlebars')
@@ -18,6 +19,10 @@ app.engine('.hbs',engine({
     partialsDir: path.join(app.get('views'),'partials'),
     extname:'.hbs'
 }))
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : './uploads'
+}));
 app.set('view engine','.hbs')
 // Middlewares 
 app.use(express.urlencoded({extended:false}))
